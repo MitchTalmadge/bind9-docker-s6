@@ -4,17 +4,22 @@
 echo "Creating Directories"
 mkdir -p /config/bind
 mkdir -p /config/log/bind
+mkdir -p /config/lib/bind
+mkdir -p /var/cache/bind
 
-# TODO: Symlink logs, cache, lib
+echo "Setting Permissions"
+lsiown -R abc:abc \
+    /config \
+    /var/cache/bind
 
 echo "Linking"
 rm -rf /etc/bind
 ln -s /config/bind /etc/bind
+
 rm -rf /var/log/bind
 ln -s /config/log/bind /var/log/bind
 
-echo "Setting Permissions"
-lsiown -R abc:abc \
-    /config
+rm -rf /var/lib/bind
+ln -s /config/lib/bind /var/lib/bind
 
 echo "Config complete"
