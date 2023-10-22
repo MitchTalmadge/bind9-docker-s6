@@ -21,4 +21,4 @@ fi
 echo "Starting bind"
 exec \
     s6-notifyoncheck -d -n 300 -w 1000 -c "nc -zu localhost 53" \
-    /usr/sbin/named -f -c ${CONFIG} -u abc
+    /usr/sbin/named -g -c ${CONFIG} -u abc
