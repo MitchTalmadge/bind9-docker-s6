@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv bash
+# shellcheck shell=bash
+
+echo "Starting bind"
+exec \
+    s6-notifyoncheck -d -n 10 -w 3000 -c "nc -z localhost 53" \
+    /usr/sbin/named -f -c /etc/bind/named.conf -u abc

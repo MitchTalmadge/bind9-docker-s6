@@ -1,0 +1,18 @@
+#!/usr/bin/with-contenv bash
+# shellcheck shell=bash
+
+echo "Creating Directories"
+mkdir -p /config/bind
+mkdir -p /config/log/bind
+
+# TODO: Symlink logs, cache, lib
+
+echo "Linking"
+rm -rf /etc/bind
+ln -s /config/bind /etc/bind
+
+echo "Setting Permissions"
+lsiown -R abc:abc \
+    /config
+
+echo "Config complete"
