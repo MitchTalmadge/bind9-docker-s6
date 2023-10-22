@@ -10,6 +10,8 @@ mkdir -p /config/log/bind
 echo "Linking"
 rm -rf /etc/bind
 ln -s /config/bind /etc/bind
+rm -rf /var/log/bind
+ln -s /config/log/bind /var/log/bind
 
 echo "Setting Permissions"
 lsiown -R abc:abc \

@@ -1,7 +1,24 @@
 #!/usr/bin/with-contenv bash
 # shellcheck shell=bash
 
+CONFIG=/etc/bind/named.conf
+
+echo "Checking Config..."
+if [ ! -f ${CONFIG} ]; then
+    echo "Config not found! Please make sure you have created /config/bind/named.conf"
+    echo "Quitting..."
+    halt
+    exit 1
+fi
+/usr/bin/named-checkconf -z ${CONFIG}
+if [ $? -ne 0 ]; then
+    echo "Config has an error!"
+    echo "Quitting..."
+    halt
+    exit 1
+fi
+
 echo "Starting bind"
 exec \
-    s6-notifyoncheck -d -n 10 -w 3000 -c "nc -z localhost 53" \
-    /usr/sbin/named -f -c /etc/bind/named.conf -u abc
+    s6-notifyoncheck -d -n 300 -w 1000 -c "nc -zu localhost 53" \
+    /usr/sbin/named -f -c ${CONFIG} -u abc
